@@ -56,11 +56,30 @@ def init_unix_connection_engine(db_config):
 
 @app.route("/", methods=["GET"])
 def index():
-    return render_template('index.html')
+    context = get_index_context()
+    return render_template('index.html', **context)
 
 
-# def get_index_context():
-# """Tally votes and return vote information"""
+def get_index_context():
+    """Tally votes and return vote information"""
+    votes_dict = []
+
+    # Execute the query and fetch all results
+    recent_votes = session.query(Votes.candidate, Votes.time_cast).order_by(Votes.time_cast.desc()).limit(5).all()
+
+    for row in recent_votes:
+        votes_dict.append({"candidate": row[0], "time_cast": row[1]})
+
+    # Count number of votes for tabs
+    tab_count = session.query(Votes).filter(Votes.candidate == "Tabs").count()
+
+    # Count number of votes for spaces
+    space_count = session.query(Votes).filter(Votes.candidate == "Spaces").count()
+    return {
+        'recent_votes': votes_dict,
+        'space_count': space_count,
+        'tab_count': tab_count,
+    }
 
 
 @app.route("/", methods=["POST"])

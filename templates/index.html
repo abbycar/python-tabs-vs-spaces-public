@@ -13,51 +13,51 @@
     </div>
 </nav>
 <div class="section">
-<!--    <div class="center">-->
-<!--        <h4>-->
-<!--            {% if tab_count == space_count %}-->
-<!--                TABS and SPACES are evenly matched!-->
-<!--            {% elif tab_count > space_count %}-->
-<!--                TABS are winning by {{tab_count - space_count}}-->
-<!--                {{'votes' if tab_count - space_count > 1 else 'vote'}}!-->
-<!--            {% elif space_count > tab_count %}-->
-<!--                SPACES are winning by {{space_count - tab_count}}-->
-<!--                {{'votes' if space_count - tab_count > 1 else 'vote'}}!-->
-<!--            {% endif %}-->
-<!--        </h4>-->
-<!--    </div>-->
+    <div class="center">
+        <h4>
+            {% if tab_count == space_count %}
+                TABS and SPACES are evenly matched!
+            {% elif tab_count > space_count %}
+                TABS are winning by {{tab_count - space_count}}
+                {{'votes' if tab_count - space_count > 1 else 'vote'}}!
+            {% elif space_count > tab_count %}
+                SPACES are winning by {{space_count - tab_count}}
+                {{'votes' if space_count - tab_count > 1 else 'vote'}}!
+            {% endif %}
+        </h4>
+    </div>
     <div class="row center">
         <div class="col s6 m5 offset-m1">
             <div class="card-panel">
                 <i class="material-icons large">keyboard_tab</i>
-                <h3>x votes</h3>
+                <h3>{{tab_count}} votes</h3>
                 <button id="voteTabs" class="btn green">Vote for TABS</button>
             </div>
         </div>
         <div class="col s6 m5">
             <div class="card-panel">
                 <i class="material-icons large">space_bar</i>
-                <h3>x votes</h3>
+                <h3>{{space_count}} votes</h3>
                 <button id="voteSpaces" class="btn blue">Vote for SPACES</button>
             </div>
         </div>
     </div>
-<!--    <h4 class="header center">Recent Votes</h4>-->
-<!--    <ul class="container collection center">-->
-<!--        {% for vote in recent_votes %}-->
-<!--            <li class="collection-item avatar">-->
-<!--                {% if vote.candidate == "TABS" %}-->
-<!--                    <i class="material-icons circle green">keyboard_tab</i>-->
-<!--                {% elif vote.candidate == "SPACES" %}-->
-<!--                    <i class="material-icons circle blue">space_bar</i>-->
-<!--                {% endif %}-->
-<!--                <span class="title">-->
-<!--                    A vote for <b>{{vote.candidate}}</b>-->
-<!--                </span>-->
-<!--                <p>was cast at {{vote.time_cast}}</p>-->
-<!--            </li>-->
-<!--        {% endfor %}-->
-<!--    </ul>-->
+    <h4 class="header center">Recent Votes</h4>
+    <ul class="container collection center">
+        {% for vote in recent_votes %}
+            <li class="collection-item avatar">
+                {% if vote.candidate == "TABS" %}
+                    <i class="material-icons circle green">keyboard_tab</i>
+                {% elif vote.candidate == "SPACES" %}
+                    <i class="material-icons circle blue">space_bar</i>
+                {% endif %}
+                <span class="title">
+                    A vote for <b>{{vote.candidate}}</b>
+                </span>
+                <p>was cast at {{vote.time_cast}}</p>
+            </li>
+        {% endfor %}
+    </ul>
 </div>
 <script>
     function vote(team) {
