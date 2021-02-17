@@ -1,8 +1,10 @@
+import datetime
+
 import sqlalchemy
-from flask import Flask, render_template
+from flask import Flask, render_template, Response, request
 from sqlalchemy.orm import sessionmaker
 
-from models import create_database
+from models import create_database, Votes
 
 app = Flask(__name__)
 
@@ -61,9 +63,27 @@ def index():
 # """Tally votes and return vote information"""
 
 
-# @app.route("/", methods=["POST"])
-# def save_vote():
-# """Save vote to database"""
+@app.route("/", methods=["POST"])
+def save_vote():
+    # Get the team and time the vote was cast.
+    team = request.form["team"]
+    time_cast = datetime.datetime.utcnow()
+
+    if team != "TABS" and team != "SPACES":
+        return Response(response="Invalid team specified.", status=400)
+
+    try:
+        session.add(Votes(time_cast=time_cast, candidate=team))
+        session.commit()
+    except Exception as e:
+        return Response(
+            status=500,
+            response="Unable to successfully cast vote!",
+        )
+    return Response(
+        status=200,
+        response="Vote successfully cast for '{}'".format(team),
+    )
 
 
 # def access_secret_version(secret_version_id):

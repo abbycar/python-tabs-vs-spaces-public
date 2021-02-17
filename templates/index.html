@@ -26,22 +26,22 @@
 <!--            {% endif %}-->
 <!--        </h4>-->
 <!--    </div>-->
-<!--    <div class="row center">-->
-<!--        <div class="col s6 m5 offset-m1">-->
-<!--            <div class="card-panel">-->
-<!--                <i class="material-icons large">keyboard_tab</i>-->
-<!--                <h3>{{tab_count}} votes</h3>-->
-<!--                <button id="voteTabs" class="btn green">Vote for TABS</button>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div class="col s6 m5">-->
-<!--            <div class="card-panel">-->
-<!--                <i class="material-icons large">space_bar</i>-->
-<!--                <h3>{{space_count}} votes</h3>-->
-<!--                <button id="voteSpaces" class="btn blue">Vote for SPACES</button>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
+    <div class="row center">
+        <div class="col s6 m5 offset-m1">
+            <div class="card-panel">
+                <i class="material-icons large">keyboard_tab</i>
+                <h3>x votes</h3>
+                <button id="voteTabs" class="btn green">Vote for TABS</button>
+            </div>
+        </div>
+        <div class="col s6 m5">
+            <div class="card-panel">
+                <i class="material-icons large">space_bar</i>
+                <h3>x votes</h3>
+                <button id="voteSpaces" class="btn blue">Vote for SPACES</button>
+            </div>
+        </div>
+    </div>
 <!--    <h4 class="header center">Recent Votes</h4>-->
 <!--    <ul class="container collection center">-->
 <!--        {% for vote in recent_votes %}-->
@@ -59,27 +59,27 @@
 <!--        {% endfor %}-->
 <!--    </ul>-->
 </div>
-<!--<script>-->
-<!--    function vote(team) {-->
-<!--        var xhr = new XMLHttpRequest();-->
-<!--        xhr.onreadystatechange = function () {-->
-<!--            if (this.readyState == 4) {-->
-<!--                if (!window.alert(this.responseText)) {-->
-<!--                    window.location.reload();-->
-<!--                }-->
-<!--            }-->
-<!--        };-->
-<!--        xhr.open("POST", "/", true);-->
-<!--        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");-->
-<!--        xhr.send("team=" + team);-->
-<!--    }-->
+<script>
+    function vote(team) {
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4) {
+                if (!window.alert(this.responseText)) {
+                    window.location.reload();
+                }
+            }
+        };
+        xhr.open("POST", "/", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.send("team=" + team);
+    }
 
-<!--    document.getElementById("voteTabs").addEventListener("click", function () {-->
-<!--        vote("TABS");-->
-<!--    });-->
-<!--    document.getElementById("voteSpaces").addEventListener("click", function () {-->
-<!--        vote("SPACES");-->
-<!--    });-->
-<!--</script>-->
+    document.getElementById("voteTabs").addEventListener("click", function () {
+        vote("TABS");
+    });
+    document.getElementById("voteSpaces").addEventListener("click", function () {
+        vote("SPACES");
+    });
+</script>
 </body>
 </html>
