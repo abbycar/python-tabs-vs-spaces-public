@@ -1,19 +1,55 @@
-from flask import Flask, render_template, request, Response
+import sqlalchemy
+from flask import Flask, render_template
+from sqlalchemy.orm import sessionmaker
+
+from models import create_database
 
 app = Flask(__name__)
 
-
-# @app.before_first_request
-# def setup():
-# """Initial database and session setup"""
+db = None
+session = None
 
 
-# def init_connection_engine():
-# """Set engine configurations and Create SQL Alchemy engine"""
+@app.before_first_request
+def setup():
+    global db
+    global session
+    db = init_connection_engine()
+    create_database(db)
+
+    Session = sessionmaker(bind=db)
+    session = Session()
 
 
-# def init_unix_connection_engine(db_config):
-# """Create SQL Alchemy engine for interacting with DB """
+def init_connection_engine():
+    db_config = {
+        "pool_size": 5,
+        "max_overflow": 2,
+        "pool_timeout": 30,
+        "pool_recycle": 1800,
+    }
+    return init_unix_connection_engine(db_config)
+
+
+def init_unix_connection_engine(db_config):
+    db_socket_dir = "/cloudsql"
+    cloud_sql_connection_name = "abbycar-project:us-central1:my-instance"
+
+    pool = sqlalchemy.create_engine(
+        sqlalchemy.engine.url.URL(
+            drivername="mysql+pymysql",
+            username="user",
+            password="password",
+            database="voting_db",
+            query={
+                "unix_socket": "{}/{}".format(
+                    db_socket_dir,
+                    cloud_sql_connection_name)
+            }
+        ),
+        **db_config
+    )
+    return pool
 
 
 @app.route("/", methods=["GET"])
