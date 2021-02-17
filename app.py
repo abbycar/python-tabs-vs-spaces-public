@@ -40,8 +40,8 @@ def init_unix_connection_engine(db_config):
     pool = sqlalchemy.create_engine(
         sqlalchemy.engine.url.URL(
             drivername="mysql+pymysql",
-            username="user",
-            password="password",
+            username=access_secret_version("projects/974608606355/secrets/database-user/versions/1"),
+            password=access_secret_version("projects/974608606355/secrets/database-password/versions/1"),
             database="voting_db",
             query={
                 "unix_socket": "{}/{}".format(
@@ -105,8 +105,18 @@ def save_vote():
     )
 
 
-# def access_secret_version(secret_version_id):
-#     """Return the value of a secret's version"""
+def access_secret_version(secret_version_id):
+    """Return the value of a secret's version"""
+    from google.cloud import secretmanager
+
+    # Create the Secret Manager client.
+    client = secretmanager.SecretManagerServiceClient()
+
+    # Access the secret version.
+    response = client.access_secret_version(name=secret_version_id)
+
+    # Return the decoded payload.
+    return response.payload.data.decode('UTF-8')
 
 
 if __name__ == "__main__":
