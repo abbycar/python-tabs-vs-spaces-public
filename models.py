@@ -13,10 +13,8 @@ class Votes(Base):
     candidate = Column(String(6))
 
 
+# Create tables stored in meta to database
 def create_database(engine):
-    """
-    Create tables stored in meta to database
-    """
     app = Flask(__name__)
     with app.app_context():
         Base.metadata.create_all(engine)
